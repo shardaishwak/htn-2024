@@ -18,7 +18,7 @@ import {
 export type Startup = {
   id: string;
   name: string;
-  industries: string[];
+  industries: string;
   totalTokens: number;
   totalTokensGivenOut: number;
   tokenPrice: number;
@@ -27,43 +27,18 @@ export type Startup = {
 
 export const startup_columns: ColumnDef<Startup>[] = [
   {
-    id: "actions",
-    cell: ({ row }) => {
-      const startup = row.original;
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(startup.id)}>
-              Copy Startup ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View Startup Details</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
-  },
-  {
     accessorKey: "name",
     header: () => (
       <Button variant="ghost">
-        Startup Name
+        Token Name
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
   },
   {
     accessorKey: "industries",
-    header: "Industries",
-    cell: ({ row }) => <div>{row.original.industries.join(", ")}</div>,
+    header: "Industry",
+    cell: ({ row }) => <div>{row.original.industries}</div>,
   },
   {
     accessorKey: "totalTokens",

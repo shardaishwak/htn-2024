@@ -12,16 +12,65 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
-import { Payment, columns } from "./dao/columns"
+import { Dao, dao_columns } from "./dao/columns"
 import { DaoDataTable } from "./dao/data-table"
 import { Startup, startup_columns } from "./startups/columns"
 import { StartupDataTable } from "./startups/data-table"
+
+const daosData: Dao[] = [
+  {
+    id: "dao001",
+    name: "GreenTech DAO",
+    industries: "tech",
+    participants: 120,
+    totalUSDCIn: 500000.00,
+    totalUSDCOut: 300000.00,
+    numberOfProposals: 15,
+  },
+  {
+    id: "dao002",
+    name: "Health Innovators DAO",
+    industries: "tech",
+    participants: 85,
+    totalUSDCIn: 350000.00,
+    totalUSDCOut: 150000.00,
+    numberOfProposals: 22,
+  },
+  {
+    id: "dao003",
+    name: "Future of Finance DAO",
+    industries: "tech",
+    participants: 200,
+    totalUSDCIn: 750000.00,
+    totalUSDCOut: 500000.00,
+    numberOfProposals: 30,
+  },
+  {
+    id: "dao004",
+    name: "AI & Robotics DAO",
+    industries: "tech",
+    participants: 100,
+    totalUSDCIn: 600000.00,
+    totalUSDCOut: 250000.00,
+    numberOfProposals: 18,
+  },
+  {
+    id: "dao005",
+    name: "Clean Energy DAO",
+    industries: "tech",
+    participants: 75,
+    totalUSDCIn: 400000.00,
+    totalUSDCOut: 100000.00,
+    numberOfProposals: 10,
+  },
+  // Add more DAO data as needed
+];
 
 const startupsData: Startup[] = [
   {
     id: "startup12345",
     name: "Tech Innovators",
-    industries: ["Technology", "Finance"],
+    industries: "tech",
     totalTokens: 100000,
     totalTokensGivenOut: 50000,
     tokenPrice: 1.25,
@@ -30,7 +79,7 @@ const startupsData: Startup[] = [
   {
     id: "startup67890",
     name: "Green Energy Solutions",
-    industries: ["Energy", "Environment"],
+    industries: "tech",
     totalTokens: 80000,
     totalTokensGivenOut: 30000,
     tokenPrice: 2.0,
@@ -39,7 +88,7 @@ const startupsData: Startup[] = [
   {
     id: "startup54321",
     name: "HealthTech Pioneers",
-    industries: ["Healthcare", "Technology"],
+    industries: "tech",
     totalTokens: 120000,
     totalTokensGivenOut: 60000,
     tokenPrice: 1.5,
@@ -47,29 +96,6 @@ const startupsData: Startup[] = [
   },
   // Add more startup data as needed
 ];
-
-const daosdata: Payment[] = [
-  {
-    id: "728ec52f",
-    amount: 100,
-    status: "pending",
-    email: "alss@example.com",
-  },
-  {
-    id: "728ed52f",
-    amount: 200,
-    status: "pending",
-    email: "askndj@example.com",
-  },
-  {
-    id: "728ee52f",
-    amount: 2830,
-    status: "pending",
-    email: "mewkd@example.com",
-  },
-  // ...
-];
-
 // You can now use 'daos' directly without needing an async function
 
 
@@ -116,7 +142,7 @@ export default function HomePage() {
               </CardHeader>
               <CardContent>
               <div className="container mx-auto py-10">
-              <DaoDataTable columns={columns} data={daosdata} />
+              <DaoDataTable columns={dao_columns} data={daosData} />
             </div>
               </CardContent>
             </Card>
