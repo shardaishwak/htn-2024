@@ -295,7 +295,7 @@
       "daofactory": {
         "id": "DAOFactory",
         "name": "DAOFactory",
-        "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+        "address": "0x6fC8404a68eff59df1eab9a26Cb1228643778579",
         "abi": [
           {
             "inputs": [
@@ -445,7 +445,7 @@
       "usdc": {
         "id": "USDC",
         "name": "USDC",
-        "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+        "address": "0x948169dD9bF9e080E631F262894E54b6D1647F85",
         "abi": [
           {
             "inputs": [
@@ -1551,7 +1551,7 @@
       "startuptokenfactory": {
         "id": "StartupTokenFactory",
         "name": "StartupTokenFactory",
-        "address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+        "address": "0x512006abd2DbBC85Ec3c498398962554f2F2f4e2",
         "abi": [
           {
             "inputs": [
