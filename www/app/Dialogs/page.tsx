@@ -1,35 +1,63 @@
 'use client'
 import React from 'react'
-import TokenCreationDialog from './tokenConfirmation'
-import DAOParticipant from './DAOParticipantConfirmation'
-import ProposalCreationDialog from './proposalConfirmation'
-import InvestmentConfirmationDialog from './DAOInvestConfirmation'
-import ApprovalDialog from './ApprovePropositionConfirmation'
-import RejectionDialog from './RejectPropositionConfirmation'
+import TokenCreationDialog from './create-token-modal'
+import DAOParticipant from './DAO-participate-modal'
+import ProposalCreationDialog from './create-proposal-modal'
+import InvestmentConfirmationDialog from './DAO-invest-modal'
+import ApprovalDialog from './approve-proposition-modal'
+import RejectionDialog from './reject-proposal-modal'
+import VoteDialog from './vote'
+import { ThemeProvider } from "./theme-provider"
+import { ModeToggle } from "./ModeToggle"
+
+// Define the Proposition type
+interface Proposition {
+  name: string;
+  description: string;
+  tokensAvailable: number;
+}
 
 export default function Demo() {
+  // Proposition object needs to be declared before the return
+  const proposition = {
+    name: 'Decentralized Startup Fund',
+    description: 'A platform to fund and support decentralized startups.',
+    tokensAvailable: 500
+  };
+
+  const closeDialog = () => {
+    console.log('Dialog confirmed');
+  };
+
   return (
     <div className="space-y-4">
-      <h2>Dialog Demos</h2>
+      <ThemeProvider>
+        <div className="flex justify-between items-center mb-4">
+          <h2>Dialog Demos</h2>
+          <ModeToggle /> {/* Add the ModeToggle component */}
+        </div>
 
-      {/* Render TokenCreationDialog component */}
-      <TokenCreationDialog />
+        {/* Render TokenCreationDialog component */}
+        <TokenCreationDialog />
 
-      {/* Render DAOParticipant component */}
-      <DAOParticipant />
-      
-      {/* Render ProposalCreationDialog component */}
-      <ProposalCreationDialog />
+        {/* Render DAOParticipant component */}
+        <DAOParticipant />
 
-      {/* Render InvestmentConfirmationDialog component */}
-      <InvestmentConfirmationDialog />
+        {/* Render ProposalCreationDialog component */}
+        <ProposalCreationDialog />
 
-      {/* Render ApprovalDialog component */}
-      <ApprovalDialog />
+        {/* Render InvestmentConfirmationDialog component */}
+        <InvestmentConfirmationDialog />
 
-      {/* Render RejectionDialog component */}
-      <RejectionDialog />
+        {/* Render ApprovalDialog component */}
+        <ApprovalDialog onConfirm={closeDialog} />
 
+        {/* Render RejectionDialog component */}
+        <RejectionDialog onConfirm={closeDialog} />
+
+        {/* Render VoteDialog component */}
+        <VoteDialog proposition={proposition} />
+      </ThemeProvider>
     </div>
   )
 }

@@ -7,7 +7,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog"
 import React, { useState } from 'react'
 
@@ -16,7 +15,6 @@ export default function ProposalCreationDialog() {
 
   // Handler for confirming proposal creation
   const handleConfirm = () => {
-    // Implement proposal creation logic here
     console.log('Proposal creation confirmed');
     setIsDialogOpen(false); // Close the dialog after confirmation
   };
@@ -35,7 +33,7 @@ export default function ProposalCreationDialog() {
 
       {/* Dialog component */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="bg-white dark:bg-gray-800 sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Confirm Proposal Creation</DialogTitle>
             <DialogDescription>
@@ -44,9 +42,13 @@ export default function ProposalCreationDialog() {
           </DialogHeader>
           <DialogFooter>
             {/* Confirm Button */}
-            <Button variant="outline" onClick={handleConfirm}>Confirm</Button>
+            <Button variant="outline" onClick={handleConfirm}>
+              Confirm
+            </Button>
             {/* Cancel Button */}
-            <Button variant="outline" onClick={handleCancel}>Cancel</Button>
+            <Button variant="destructive" onClick={handleCancel}>
+              Cancel
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

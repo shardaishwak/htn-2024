@@ -7,7 +7,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog"
 import React, { useState } from 'react'
 
@@ -38,7 +37,7 @@ export default function InvestmentConfirmationDialog() {
 
       {/* Dialog component */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="bg-white dark:bg-gray-800 sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Confirm Investment</DialogTitle>
             <DialogDescription>
@@ -51,7 +50,7 @@ export default function InvestmentConfirmationDialog() {
               Confirm
             </Button>
             {/* Cancel Button with outline variant */}
-            <Button variant="outline" onClick={handleCancel}>
+            <Button variant="destructive" onClick={handleCancel}>
               Cancel
             </Button>
           </DialogFooter>

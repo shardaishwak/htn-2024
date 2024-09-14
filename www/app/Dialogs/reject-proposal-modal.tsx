@@ -10,31 +10,32 @@ import {
 } from "@/components/ui/dialog";
 import React, { useState } from 'react';
 
-export default function RejectionDialog() {
+interface RejectionDialogProps {
+  onConfirm: () => void;
+}
+
+export default function RejectionDialog({ onConfirm }: RejectionDialogProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  // Handler for confirming the rejection
   const handleReject = () => {
-    // Implement proposition rejection logic here
-    console.log('Proposition rejected');
+    if (typeof onConfirm === 'function') {
+      onConfirm(); // Call the onConfirm function
+    }
     setIsDialogOpen(false); // Close the dialog after rejection
   };
 
-  // Handler for canceling the action
   const handleCancel = () => {
     setIsDialogOpen(false); // Close the dialog when canceled
   };
 
   return (
     <div>
-      {/* Button that triggers the dialog */}
-      <Button variant="outline" onClick={() => setIsDialogOpen(true)}>
+      <Button variant="destructive" onClick={() => setIsDialogOpen(true)}>
         Reject Proposition
       </Button>
 
-      {/* Dialog component */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="bg-white dark:bg-gray-800 sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Confirm Proposition Rejection</DialogTitle>
             <DialogDescription>
@@ -42,12 +43,10 @@ export default function RejectionDialog() {
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            {/* Reject Button */}
             <Button variant="outline" onClick={handleReject}>
               Reject
             </Button>
-            {/* Cancel Button */}
-            <Button variant="outline" onClick={handleCancel}>
+            <Button variant="destructive" onClick={handleCancel}>
               Cancel
             </Button>
           </DialogFooter>
