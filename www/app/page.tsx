@@ -14,6 +14,39 @@ import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { Payment, columns } from "./dao/columns"
 import { DaoDataTable } from "./dao/data-table"
+import { Startup, startup_columns } from "./startups/columns"
+import { StartupDataTable } from "./startups/data-table"
+
+const startupsData: Startup[] = [
+  {
+    id: "startup12345",
+    name: "Tech Innovators",
+    industries: ["Technology", "Finance"],
+    totalTokens: 100000,
+    totalTokensGivenOut: 50000,
+    tokenPrice: 1.25,
+    numberOfProposals: 10,
+  },
+  {
+    id: "startup67890",
+    name: "Green Energy Solutions",
+    industries: ["Energy", "Environment"],
+    totalTokens: 80000,
+    totalTokensGivenOut: 30000,
+    tokenPrice: 2.0,
+    numberOfProposals: 12,
+  },
+  {
+    id: "startup54321",
+    name: "HealthTech Pioneers",
+    industries: ["Healthcare", "Technology"],
+    totalTokens: 120000,
+    totalTokensGivenOut: 60000,
+    tokenPrice: 1.5,
+    numberOfProposals: 8,
+  },
+  // Add more startup data as needed
+];
 
 const daosdata: Payment[] = [
   {
@@ -99,18 +132,9 @@ export default function HomePage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <ul className='space-y-2'>
-                  {/* Replace with dynamic Token data */}
-                  <li className='p-4 rounded-lg hover:bg-gray-100 transition-colors'>
-                    Startup Token 1
-                  </li>
-                  <li className='p-4 rounded-lg hover:bg-gray-100 transition-colors'>
-                    Startup Token 2
-                  </li>
-                  <li className='p-4 rounded-lg hover:bg-gray-100 transition-colors'>
-                    Startup Token 3
-                  </li>
-                </ul>
+              <div className="container mx-auto py-10">
+              <StartupDataTable columns={startup_columns} data={startupsData} />
+            </div>
               </CardContent>
             </Card>
           </TabsContent>

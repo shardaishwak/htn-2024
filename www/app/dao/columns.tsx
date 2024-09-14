@@ -61,7 +61,7 @@ export const columns: ColumnDef<Payment>[] = [
       return (
         <Button
           variant="outline"
-          onClick={() => router.push(`/${payment.id}`)} // Direct navigation to /{daoid}
+          onClick={() => router.push(`/dao/${payment.id}`)} // Direct navigation to /{daoid}
         >
           Checkout DAO
         </Button>
