@@ -12,8 +12,37 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { Payment, columns } from "./dao/columns"
+import { DaoDataTable } from "./dao/data-table"
+
+const daosdata: Payment[] = [
+  {
+    id: "728ec52f",
+    amount: 100,
+    status: "pending",
+    email: "alss@example.com",
+  },
+  {
+    id: "728ed52f",
+    amount: 200,
+    status: "pending",
+    email: "askndj@example.com",
+  },
+  {
+    id: "728ee52f",
+    amount: 2830,
+    status: "pending",
+    email: "mewkd@example.com",
+  },
+  // ...
+];
+
+// You can now use 'daos' directly without needing an async function
+
+
 
 export default function HomePage() {
+
   return (
     <div className='min-h-screen bg-gray-50 p-8'>
       <div className='max-w-4xl mx-auto'>
@@ -53,24 +82,9 @@ export default function HomePage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <ul className='space-y-2'>
-                  {/* Replace with dynamic DAO data */}
-                  <li className='rounded-lg hover:bg-gray-100 transition-colors'>
-                    <Link href='/dao/1' className='block p-4 text-gray-800 hover:cursor-pointer'>
-                      DAO 1
-                    </Link>
-                  </li>
-                  <li className='rounded-lg hover:bg-gray-100 transition-colors'>
-                    <Link href='/dao/2' className='block p-4 text-gray-800'>
-                      DAO 2
-                    </Link>
-                  </li>
-                  <li className='rounded-lg hover:bg-gray-100 transition-colors'>
-                    <Link href='/dao/3' className='block p-4 text-gray-800'>
-                      DAO 3
-                    </Link>
-                  </li>
-                </ul>
+              <div className="container mx-auto py-10">
+              <DaoDataTable columns={columns} data={daosdata} />
+            </div>
               </CardContent>
             </Card>
           </TabsContent>
