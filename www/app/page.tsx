@@ -12,10 +12,16 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { useContext } from 'react';
+import { ChainContext } from '@/context/chain-context';
 
 export default function HomePage() {
+
+  const {address,connectWallet} = useContext(ChainContext);
   return (
     <div className='min-h-screen bg-gray-50 p-8'>
+      <Button onClick={connectWallet} className='mb-4'>Connect to Wallet</Button>
+      <p>{address}</p>
       <div className='max-w-4xl mx-auto'>
         <header className='text-center mb-12'>
           <h1 className='text-4xl font-bold text-gray-900 mb-4'>
