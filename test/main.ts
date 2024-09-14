@@ -41,7 +41,7 @@ describe("Test the integration", function () {
 		[owner, addr1, addr2] = await ethers.getSigners();
 
 		// Deploy USDC Token
-		const initialSupply = ethers.parseUnits("1000000", 6); // 1,000,000 USDC
+		const initialSupply = ethers.parseUnits("10000000", 6); // 1,000,000 USDC
 		usdc = (await ethers.deployContract("MockUSDC", [initialSupply])) as any;
 		await usdc.waitForDeployment();
 		usdcAddress = await usdc.getAddress();
@@ -50,8 +50,7 @@ describe("Test the integration", function () {
 		// Mint 100,000 USDC to addr1
 
 		await usdc.mint(addr1.address, ethers.parseUnits("100000", 6));
-		const addr1Balance = await usdc.balanceOf(addr1.address);
-		log("addr1 USDC Balance:", addr1Balance.toString());
+		await usdc.mint(addr2.address, ethers.parseUnits("1000000", 6));
 
 		// Deploy DAO Factory
 
@@ -89,6 +88,9 @@ describe("Test the integration", function () {
 		expect(await usdc.balanceOf(addr1.address)).to.equal(
 			ethers.parseUnits("100000", 6)
 		);
+		expect(await usdc.balanceOf(addr2.address)).to.equal(
+			ethers.parseUnits("1000000", 6)
+		);
 	});
 
 	it("Should deploy a DAO", async function () {
@@ -125,9 +127,30 @@ describe("Test the integration", function () {
 
 	it("Should allow address 2 to lend to DAO and be a lender", async function () {
 		const dao = await ethers.getContractAt("DAO", daoAddress);
-		const startupToken = await ethers.getContractAt(
-			"StartupToken",
-			startupTokenAddress
+		// lend 20,000 USDC to the DAO
+		const balance = await usdc.balanceOf(addr2.address);
+		console.log("Balance:", balance);
+
+		const lendAmount = ethers.parseUnits("20000", 6);
+		const tx = await usdc.connect(addr2).approve(daoAddress, lendAmount);
+
+		await tx.wait();
+
+		// check the allowance
+		expect(await usdc.allowance(addr2.address, daoAddress)).to.equal(
+			lendAmount
 		);
+
+		const allowance = await usdc.allowance(addr2.address, daoAddress);
+		console.log("Allowance after approval:", allowance.toString());
+		expect(allowance).to.equal(lendAmount);
+		// check to make sure that lender has enough balance
+		expect(await usdc.balanceOf(addr2.address)).to.be.gte(
+			ethers.parseUnits("20000", 6)
+		);
+		await dao.connect(addr2).lend(lendAmount);
+
+		// check if addr2 is a lender
+		// expect(await dao.isLender(addr2.address)).to.equal(true);
 	});
 });

@@ -34,8 +34,16 @@ contract DAO {
         symbol = _symbol;
     }
 
-    function depositUSDC(uint256 amount) external {
+    function lend(uint256 amount) external {
         require(amount > 0, "Invalid amount");
+        require(
+            usdcToken.balanceOf(msg.sender) >= amount,
+            "Insufficient USDC balance"
+        );
+        require(
+            usdcToken.allowance(msg.sender, address(this)) >= amount,
+            "Insufficient allowance"
+        );
         usdcToken.transferFrom(msg.sender, address(this), amount);
         lenders[msg.sender] += amount;
         totalUSDCIn += amount;
@@ -65,5 +73,9 @@ contract DAO {
         Proposal proposal
     ) external {
         startupProposals[startup].push(proposal);
+    }
+
+    function isLender(address account) external view returns (bool) {
+        return lenders[account] > 0;
     }
 }
