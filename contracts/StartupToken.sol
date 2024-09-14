@@ -10,6 +10,9 @@ contract StartupToken is ERC20, Ownable {
     Proposal[] public proposalAddresses; // Store proposal IDs created by this token
     uint256 public maximumSupply;
 
+    // Put the total funding received.
+    // Who are the investors.
+
     constructor(
         uint256 _totalSupply,
         address _founder,
