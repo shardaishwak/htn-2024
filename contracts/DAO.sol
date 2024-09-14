@@ -34,6 +34,10 @@ contract DAO {
         symbol = _symbol;
     }
 
+    function checkAllowance(address account) external view returns (uint256) {
+        return usdcToken.allowance(account, address(this));
+    }
+
     function lend(uint256 amount) external {
         require(amount > 0, "Invalid amount");
         require(
@@ -50,7 +54,10 @@ contract DAO {
     }
 
     // Transfer funds to the startup if the proposal is accepted
-    function transferFunds(address fundingAddress, uint256 amount) external {
+    function transferFundsToProposal(
+        address fundingAddress,
+        uint256 amount
+    ) external {
         require(
             usdcToken.balanceOf(address(this)) >= amount,
             "Insufficient DAO funds"
@@ -72,10 +79,17 @@ contract DAO {
         address startup,
         Proposal proposal
     ) external {
+        proposals.push(proposal);
         startupProposals[startup].push(proposal);
     }
 
     function isLender(address account) external view returns (bool) {
         return lenders[account] > 0;
+    }
+
+    function getStartupProposals(
+        address startup
+    ) external view returns (Proposal[] memory) {
+        return startupProposals[startup];
     }
 }

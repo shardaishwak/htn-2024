@@ -43,6 +43,7 @@ contract StartupToken is ERC20, Ownable {
         DAO dao = DAO(daoAddress);
         // Create a new Proposal contract
         Proposal proposal = new Proposal(
+            owner(),
             address(this),
             address(dao),
             description,
@@ -67,7 +68,31 @@ contract StartupToken is ERC20, Ownable {
         return proposalAddresses;
     }
 
+    function proposalCount() external view returns (uint256) {
+        return proposalAddresses.length;
+    }
+
     function isStartupToken() external pure returns (bool) {
         return true;
+    }
+
+    struct StartupTokenDetails {
+        string name;
+        string symbol;
+        uint256 totalSupply;
+        uint256 maximumSupply;
+        uint256 proposalCount;
+        address owner;
+    }
+    function getDetails() external view returns (StartupTokenDetails memory) {
+        return
+            StartupTokenDetails({
+                name: name(),
+                symbol: symbol(),
+                totalSupply: totalSupply(),
+                maximumSupply: maximumSupply,
+                proposalCount: proposalAddresses.length,
+                owner: owner()
+            });
     }
 }
