@@ -404,5 +404,24 @@ describe("Test the integration", function () {
 		log("Percentage:", percentage);
 		log("Total USDC:", totalUSDC);
 		log("Can Approve:", canApprove);
+
+		const ownerBalanceBefore = ethers.formatUnits(
+			await usdc.balanceOf(daoAddress),
+			6
+		);
+		log("DAO Balance Before:", ownerBalanceBefore);
+
+		await proposal.finalize();
+		const proposalStatus = await proposal.finalized();
+		expect(proposalStatus).to.equal(true);
+
+		console.log(ethers.formatUnits(await usdc.balanceOf(daoAddress), 6));
+
+		// the DAO group should have the Startup Token
+		expect(await startupToken.balanceOf(daoAddress)).to.equal(1000);
+		// check the balance of the startup token. The fundingAdderss should have 1000 tokens
+		expect(await usdc.balanceOf(owner.address)).to.equal(
+			ethers.parseUnits(1000 + ownerBalanceBefore, 6)
+		);
 	});
 });
