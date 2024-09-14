@@ -20,6 +20,7 @@ contract Proposal {
     mapping(address => bool) public hasVoted;
 
     constructor(
+        address _founder,
         address _startupToken,
         address _dao,
         string memory _description,
@@ -29,7 +30,7 @@ contract Proposal {
     ) {
         startupToken = StartupToken(_startupToken);
         dao = DAO(_dao);
-        founder = msg.sender;
+        founder = _founder;
         description = _description;
         requestedAmount = _requestedAmount;
         tokensOffered = _tokensOffered;
@@ -45,6 +46,8 @@ contract Proposal {
 
     // Voting logic
     function vote(bool support) external {
+        // the voter needs to be a DAO lender
+        require(dao.isLender(msg.sender), "You need to be a lender to vote");
         require(!hasVoted[msg.sender], "You have already voted");
         require(!finalized, "Proposal already finalized");
 
@@ -57,6 +60,20 @@ contract Proposal {
         }
     }
 
+    function totalVotes() external view returns (uint256) {
+        return votesFor + votesAgainst;
+    }
+
+    function calculateVotingPower() public view returns (uint256) {
+        uint256 totalUSDCLent = dao.totalUSDCIn();
+
+        return (votesFor * 100 * 1000000) / totalUSDCLent;
+    }
+
+    function canApprove() public view returns (bool) {
+        return calculateVotingPower() > 50 * 1000000;
+    }
+
     // Finalize the proposal and either transfer funds to the funding address or return tokens
     function finalize() external {
         require(!finalized, "Proposal already finalized");
@@ -64,9 +81,9 @@ contract Proposal {
 
         finalized = true;
 
-        if (votesFor > votesAgainst) {
+        if (canApprove()) {
             // Transfer USDC from DAO to the funding address
-            dao.transferFunds(fundingAddress, requestedAmount);
+            dao.transferFundsToProposal(fundingAddress, requestedAmount);
 
             // Transfer tokens to DAO
             startupToken.transfer(address(dao), tokensOffered);
@@ -74,5 +91,34 @@ contract Proposal {
             // Return tokens to the founder
             startupToken.transfer(founder, tokensOffered);
         }
+    }
+
+    struct ProposalDetails {
+        address startupToken;
+        address dao;
+        address founder;
+        string description;
+        uint256 requestedAmount;
+        uint256 tokensOffered;
+        address fundingAddress;
+        uint256 votesFor;
+        uint256 votesAgainst;
+        bool finalized;
+    }
+
+    function getDetails() external view returns (ProposalDetails memory) {
+        return
+            ProposalDetails({
+                startupToken: address(startupToken),
+                dao: address(dao),
+                founder: founder,
+                description: description,
+                requestedAmount: requestedAmount,
+                tokensOffered: tokensOffered,
+                fundingAddress: fundingAddress,
+                votesFor: votesFor,
+                votesAgainst: votesAgainst,
+                finalized: finalized
+            });
     }
 }
