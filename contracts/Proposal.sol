@@ -77,7 +77,6 @@ contract Proposal {
     // Finalize the proposal and either transfer funds to the funding address or return tokens
     function finalize() external {
         require(!finalized, "Proposal already finalized");
-        require(msg.sender == founder, "Only the founder can finalize");
 
         finalized = true;
 
