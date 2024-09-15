@@ -18,14 +18,6 @@ const DaoPage = () => {
 	return (
 		<div className="min-h-screen bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 p-8">
 			<div className="max-w-4xl mx-auto">
-				<header className="text-center mb-12">
-					<Chart />
-				</header>
-
-				<h1 className="text-white font-bold text-3xl">
-					We will LEND HERE!! Make modal
-				</h1>
-
 				{/* Tabs system for Investments and Investors */}
 				<Tabs defaultValue="lenders" className="w-full">
 					<div className=" ">

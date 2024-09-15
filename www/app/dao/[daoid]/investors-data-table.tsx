@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import {
 	Card,
 	CardContent,
@@ -21,14 +22,16 @@ import { rpcProvider } from "@/rpc";
 import { Lender } from "@/rpc/types";
 import { useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
+import {
+	Dialog,
+	DialogContent,
+	DialogHeader,
+	DialogTitle,
+	DialogFooter,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 
-type InvestorsTableRowProps = {
-	id: string;
-	address: string;
-	equity: string;
-	tokens: string;
-};
-
+// Modal functionality integrated here
 const InvestorsTableRow = (props: InvestorsTableRowProps) => {
 	return (
 		<TableRow>
@@ -40,10 +43,11 @@ const InvestorsTableRow = (props: InvestorsTableRowProps) => {
 };
 
 export default function InvestorsDataTable({ query }) {
-	const router = useRouter(); // Initialize useRouter
+	const router = useRouter();
 	const daoid = router?.query?.daoid as string;
 	const { daos, provider } = useContext<ChainContextType>(ChainContext);
-
+	const [isOpen, setIsOpen] = useState(false); // To control modal visibility
+	const [amount, setAmount] = useState(''); // To track the amount user enters
 	const [lenders, setLenders] = useState<Lender[]>([]);
 
 	const dao = daos.find((dao) => dao.symbol === daoid);
@@ -60,6 +64,22 @@ export default function InvestorsDataTable({ query }) {
 
 	const totalDAOfunds = dao?.totalUSDCIn || 1;
 
+	// Function to handle the lend callback
+	const callbackLend = async (daoAddress: string, amount: number) => {
+		await rpcProvider.dao.lend(daoAddress, provider, signer, amount);
+		setIsOpen(false); // Close the modal after submission
+	};
+
+	// Function to open the modal
+	const openModal = () => {
+		setIsOpen(true);
+	};
+
+	// Function to close the modal
+	const closeModal = () => {
+		setIsOpen(false);
+	};
+
 	return (
 		<Tabs defaultValue="week" className="shadow-lg h-[500px]">
 			<div className="flex flex-col">
@@ -71,6 +91,9 @@ export default function InvestorsDataTable({ query }) {
 								<CardDescription>
 									Explore the list of investors.
 								</CardDescription>
+							</div>
+							<div>
+								<Button onClick={openModal}>+</Button>
 							</div>
 						</CardHeader>
 						<CardContent>
@@ -96,6 +119,36 @@ export default function InvestorsDataTable({ query }) {
 							</Table>
 						</CardContent>
 					</Card>
+
+					{/* Modal for lending */}
+					<Dialog open={isOpen} onOpenChange={setIsOpen}>
+						<DialogContent>
+							<DialogHeader>
+								<DialogTitle>How much do you want to lend?</DialogTitle>
+							</DialogHeader>
+							<div className="flex flex-col gap-4">
+								<Input
+									type="number"
+									placeholder="Enter amount"
+									value={amount}
+									onChange={(e) => setAmount(e.target.value)}
+								/>
+							</div>
+							<DialogFooter>
+								<Button
+									onClick={() =>
+										callbackLend('daoAddressPlaceholder', parseFloat(amount))
+									}
+									className=""
+								>
+									Confirm
+								</Button>
+								<Button onClick={closeModal} variant="outline">
+									Cancel
+								</Button>
+							</DialogFooter>
+						</DialogContent>
+					</Dialog>
 				</TabsContent>
 			</div>
 		</Tabs>
