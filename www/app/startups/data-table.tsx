@@ -14,6 +14,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 type StartupTableRowProps = {
@@ -25,8 +26,18 @@ type StartupTableRowProps = {
 };
 
 const StartupTableRow = (props: StartupTableRowProps) => {
+  const router = useRouter(); // Initialize useRouter
+
+  // Handle row click
+  const handleRowClick = () => {
+    router.push(`/startups/${props.ftx_token}`);
+  };
+
   return (
-    <TableRow className={'cursor-pointer'}>
+    <TableRow
+      className={'cursor-pointer'}
+      onClick={handleRowClick} // Add click handler
+    >
       <TableCell>
         <div className='font-medium'>{props.ftx_token}</div>
       </TableCell>
