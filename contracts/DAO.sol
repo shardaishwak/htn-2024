@@ -9,6 +9,8 @@ contract DAO {
     IERC20 public usdcToken;
     address public daoCreator;
 
+    string public description;
+
     Proposal[] public proposals;
 
     mapping(address => Proposal[]) public startupProposals;
@@ -26,12 +28,14 @@ contract DAO {
         address _usdcToken,
         address _daoCreator,
         string memory _name,
-        string memory _symbol
+        string memory _symbol,
+        string memory _description
     ) {
         usdcToken = IERC20(_usdcToken);
         daoCreator = _daoCreator;
         name = _name;
         symbol = _symbol;
+        description = _description;
     }
 
     function checkAllowance(address account) external view returns (uint256) {

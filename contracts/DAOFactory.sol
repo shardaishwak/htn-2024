@@ -10,11 +10,14 @@ contract DAOFactory is Ownable {
 
     constructor(address _initialOwner) Ownable(_initialOwner) {}
 
-    function createDAO(address usdcToken) external onlyOwner {
+    function createDAO(
+        address usdcToken,
+        string memory _description
+    ) external onlyOwner {
         string memory id = Strings.toString(daos.length + 1);
         string memory name = string(abi.encodePacked("DAO ", id));
         string memory symbol = string(abi.encodePacked("DAO", id));
-        DAO dao = new DAO(usdcToken, msg.sender, name, symbol);
+        DAO dao = new DAO(usdcToken, msg.sender, name, symbol, _description);
         daos.push(dao);
     }
 

@@ -81,7 +81,7 @@ describe("Test the integration", function () {
 		startupTokenFactoryAddress = await startupTokenFactory.getAddress();
 		log("Startup Token Factory Address:", startupTokenFactoryAddress);
 	});
-	it.skip("Should check if everything has been deployed correctly", async function () {
+	it("Should check if everything has been deployed correctly", async function () {
 		// check if the addresses are correct
 		expect(await daoFactory.getAddress()).to.equal(daoFactoryAddress);
 		// check the owner
@@ -100,9 +100,9 @@ describe("Test the integration", function () {
 		);
 	});
 
-	it.skip("Should deploy a DAO", async function () {
+	it("Should deploy a DAO", async function () {
 		// Deploy DAO
-		await daoFactory.createDAO(usdcAddress);
+		await daoFactory.createDAO(usdcAddress, "Finance DAO");
 		expect(await daoFactory.getDAOCount()).to.equal(1);
 
 		daoAddress = await daoFactory.daos(0);
@@ -115,7 +115,7 @@ describe("Test the integration", function () {
 		console.log(await daoFactory.getDAOs());
 	});
 
-	it.skip("Should deploy a Startup Token", async function () {
+	it("Should deploy a Startup Token", async function () {
 		// Deploy the Startup Token with initial supply of 100,000
 		await startupTokenFactory.createStartupToken(100000, addr1.address);
 		expect(await startupTokenFactory.getStartupTokenCount()).to.equal(1);
@@ -135,9 +135,9 @@ describe("Test the integration", function () {
 		expect(details[5]).to.equal(addr1.address);
 	});
 
-	it.skip("Should allow address 2 to lend to DAO and be a lender", async function () {
+	it("Should allow address 2 to lend to DAO and be a lender", async function () {
 		// deploy a DAO
-		await daoFactory.createDAO(usdcAddress);
+		await daoFactory.createDAO(usdcAddress, "Finance DAO");
 		daoAddress = await daoFactory.daos(0);
 
 		const dao = await ethers.getContractAt("DAO", daoAddress);
@@ -168,9 +168,9 @@ describe("Test the integration", function () {
 		expect(await usdc.balanceOf(daoAddress)).to.equal(lendAmount);
 	});
 
-	it.skip("Should create a new proposal", async function () {
+	it("Should create a new proposal", async function () {
 		// deploy a DAO
-		await daoFactory.createDAO(usdcAddress);
+		await daoFactory.createDAO(usdcAddress, "Finance DAO");
 		daoAddress = await daoFactory.daos(0);
 		const dao = await ethers.getContractAt("DAO", daoAddress);
 
@@ -224,9 +224,9 @@ describe("Test the integration", function () {
 		]);
 	});
 
-	it.skip("Should vote on a proposal: true", async function () {
+	it("Should vote on a proposal: true", async function () {
 		// deploy a DAO
-		await daoFactory.createDAO(usdcAddress);
+		await daoFactory.createDAO(usdcAddress, "Finance DAO");
 		daoAddress = await daoFactory.daos(0);
 		const dao = await ethers.getContractAt("DAO", daoAddress);
 
@@ -268,9 +268,9 @@ describe("Test the integration", function () {
 		expect(await proposal.totalVotes()).to.equal(lendAmount);
 	});
 
-	it.skip("Should vote on a proposal: false", async function () {
+	it("Should vote on a proposal: false", async function () {
 		// deploy a DAO
-		await daoFactory.createDAO(usdcAddress);
+		await daoFactory.createDAO(usdcAddress, "Finance DAO");
 		daoAddress = await daoFactory.daos(0);
 		const dao = await ethers.getContractAt("DAO", daoAddress);
 
@@ -312,9 +312,9 @@ describe("Test the integration", function () {
 		expect(await proposal.totalVotes()).to.equal(lendAmount);
 	});
 
-	it.skip("should not be able to vote if not a lender", async function () {
+	it("should not be able to vote if not a lender", async function () {
 		// deploy a DAO
-		await daoFactory.createDAO(usdcAddress);
+		await daoFactory.createDAO(usdcAddress, "Finance DAO");
 		daoAddress = await daoFactory.daos(0);
 		const dao = await ethers.getContractAt("DAO", daoAddress);
 
@@ -351,7 +351,7 @@ describe("Test the integration", function () {
 
 	it("should vote and then finalize the proposal", async function () {
 		// deploy a DAO
-		await daoFactory.createDAO(usdcAddress);
+		await daoFactory.createDAO(usdcAddress, "Finance DAO");
 		daoAddress = await daoFactory.daos(0);
 		const dao = await ethers.getContractAt("DAO", daoAddress);
 
