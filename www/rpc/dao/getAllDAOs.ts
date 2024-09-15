@@ -31,6 +31,9 @@ export default async function getAllDAOs(provider: any) {
 				totalTokensOut: details[4],
 				name: details[5],
 				symbol: details[6],
+				lendersCount: details[7],
+				assetsCount: details[8],
+				proposalCount: details[9],
 			});
 		}
 

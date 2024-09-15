@@ -74,6 +74,7 @@ contract DAO {
             "Insufficient DAO funds"
         );
         usdcToken.transfer(fundingAddress, amount);
+        totalTokensOut += amount;
     }
 
     function getProposal(
@@ -112,6 +113,9 @@ contract DAO {
         uint256 totalTokensOut;
         string name;
         string symbol;
+        uint256 lendersCount;
+        uint256 assetsCount;
+        uint256 proposalCount;
     }
 
     function getDetails() external view returns (DAODetails memory) {
@@ -123,7 +127,10 @@ contract DAO {
                 totalUSDCIn: totalUSDCIn,
                 totalTokensOut: totalTokensOut,
                 name: name,
-                symbol: symbol
+                symbol: symbol,
+                lendersCount: lendersList.length,
+                assetsCount: assetsList.length,
+                proposalCount: proposals.length
             });
     }
 

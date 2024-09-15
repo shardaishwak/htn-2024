@@ -1,12 +1,5 @@
 "use client";
 
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import DaoDataTable from "./dao/data-table";
@@ -14,26 +7,11 @@ import Hero from "@/components/hero";
 import StartupDataTable from "./startups/startup-data-table";
 
 export default function HomePage() {
-	//   const daoAddress = '0x';
-
-	//   useEffect(() => {
-	//     (async () => {
-	//       const address = await rpcProvider.wallet.getAddress(signer);
-	//       setAddress(address);
-
-	//       const proposals = await rpcProvider.dao.getAllProposals(
-	//         daoAddress,
-	//         signer
-	//       );
-	//       console.log(proposals);
-	//     })();
-	//   }, [signer]);
-
 	return (
 		<div className="min-h-screen bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 p-8">
 			<Hero />
 
-			<div className="max-w-4xl mx-auto">
+			<div className="max-w-4xl mx-auto mt-32">
 				{/* Tabs positioned at top left */}
 				<Tabs defaultValue="daos" className="relative">
 					<div className=" ">
