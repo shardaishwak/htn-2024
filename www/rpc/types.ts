@@ -39,4 +39,17 @@ export type StartupToken = {
 	proposalCount: number;
 	owner: string;
 	totalFundingReceived: number;
+	totalDaos: number;
+};
+
+export type Lender = {
+	address: string;
+	value: string;
+	token: string;
+};
+
+export type StartupTokenDAO = {
+	address: string;
+	totalFundingReceived: number;
+	symbol: string;
 };

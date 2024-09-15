@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import {
 	Card,
 	CardContent,
@@ -15,6 +16,7 @@ import {
 } from "@/components/ui/table";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { ChainContext, ChainContextType } from "@/context/chain-context";
+import { rpcProvider } from "@/rpc";
 import { StartupToken } from "@/rpc/types";
 import { useRouter } from "next/navigation";
 import React, { useContext } from "react";
@@ -59,7 +61,13 @@ const StartupTableRow = (props: { startupToken: StartupToken }) => {
 };
 
 export default function StartupDataTable() {
-	const { startupTokens } = useContext<ChainContextType>(ChainContext);
+	const { startupTokens, provider } =
+		useContext<ChainContextType>(ChainContext);
+
+	const createStartupToken = async () => {
+		await rpcProvider.startupToken.createStartupToken(100000, provider);
+	};
+
 	return (
 		<Tabs defaultValue="week" className="shadow-lg h-[500px]">
 			<div className="flex flex-col">
@@ -71,6 +79,9 @@ export default function StartupDataTable() {
 								<CardDescription>
 									Explore available startup tokens and their market data.
 								</CardDescription>
+							</div>
+							<div>
+								<Button onClick={createStartupToken}>Tokenize</Button>
 							</div>
 						</CardHeader>
 						<CardContent>

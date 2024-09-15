@@ -7,6 +7,7 @@ import finalize from "./proposal/finalize";
 import vote from "./proposal/vote";
 import createProposal from "./stk/createProposal";
 import createStartupToken from "./stk/createStartupToken";
+import getDAOs from "./stk/getDAOs";
 import getStartupTokens from "./stk/getStartupTokens";
 import getAddress from "./wallet/getAddress";
 import getUSDCBalance from "./wallet/getUSDCBalance";
@@ -28,6 +29,7 @@ export default class RPCProvider {
 		getAllProposals: getAllProposals,
 		createProposal: createProposal,
 		createStartupToken: createStartupToken,
+		getDAOs: getDAOs,
 	};
 	proposal = {
 		vote: vote,

@@ -12,6 +12,10 @@ contract StartupToken is ERC20, Ownable {
 
     uint256 public totalFundingReceived;
 
+    mapping(address => uint256) public fundingReceived;
+
+    address[] public daos;
+
     // Put the total funding received.
     // Who are the investors.
 
@@ -81,6 +85,30 @@ contract StartupToken is ERC20, Ownable {
         return true;
     }
 
+    struct DaoDetails {
+        address daoAddress;
+        uint256 totalFundingReceived;
+    }
+
+    function getDaos() external view returns (DaoDetails[] memory) {
+        DaoDetails[] memory daosStruct = new DaoDetails[](daos.length);
+        for (uint256 i = 0; i < daos.length; i++) {
+            daosStruct[i] = DaoDetails({
+                daoAddress: daos[i],
+                totalFundingReceived: fundingReceived[daos[i]]
+            });
+        }
+        return daosStruct;
+    }
+
+    function fundsReceived(address dao, uint256 amount) external {
+        if (fundingReceived[dao] == 0) {
+            daos.push(dao);
+        }
+        fundingReceived[dao] += amount;
+        totalFundingReceived += amount;
+    }
+
     struct StartupTokenDetails {
         string name;
         string symbol;
@@ -89,6 +117,7 @@ contract StartupToken is ERC20, Ownable {
         uint256 proposalCount;
         address owner;
         uint256 totalFundingReceived;
+        uint256 totalDaos;
     }
     function getDetails() external view returns (StartupTokenDetails memory) {
         return
@@ -99,7 +128,8 @@ contract StartupToken is ERC20, Ownable {
                 maximumSupply: maximumSupply,
                 proposalCount: proposalAddresses.length,
                 owner: owner(),
-                totalFundingReceived: totalFundingReceived
+                totalFundingReceived: totalFundingReceived,
+                totalDaos: daos.length
             });
     }
 

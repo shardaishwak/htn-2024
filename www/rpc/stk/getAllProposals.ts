@@ -43,7 +43,7 @@ export default async function getAllProposals(
 			});
 		}
 
-		console.log("[DAO]", "Proposals", proposals);
+		console.log("[STK]", "Proposals", proposals);
 
 		return proposals;
 	} catch (error) {

@@ -21,6 +21,7 @@ import { useRouter } from "next/navigation";
 import { ChainContextType, ChainContext } from "@/context/chain-context";
 import { rpcProvider } from "@/rpc";
 import { Proposal } from "@/rpc/types";
+import { Button } from "@/components/ui/button";
 
 type ProposalsTableRowProps = {
 	id: string;
@@ -84,17 +85,20 @@ const ProposalsTableRow = (props: ProposalsTableRowProps) => {
 
 export default function ProposalsDataTable() {
 	const router = useRouter(); // Initialize useRouter
-	const daoid = router?.query?.daoid as string;
-	const { daos, provider } = useContext<ChainContextType>(ChainContext);
+	const startupid = router?.query?.startupid as string;
+	const { provider, startupTokens, address } =
+		useContext<ChainContextType>(ChainContext);
 
 	const [proposals, setProposals] = useState<Proposal[]>([]);
 
-	const dao = daos.find((dao) => dao.symbol === daoid);
+	const startupToken = startupTokens.find(
+		(token) => token.symbol === startupid
+	);
 
 	useEffect(() => {
-		if (dao) {
+		if (startupToken) {
 			(async () => {
-				const address = dao.address;
+				const address = startupToken.address;
 				const lenders = await rpcProvider.dao.getAllProposals(
 					address,
 					provider
@@ -102,11 +106,34 @@ export default function ProposalsDataTable() {
 				setProposals(lenders);
 			})();
 		}
-	}, [dao]);
+	}, [startupToken]);
+
+	const isOwner = address === startupToken?.owner;
 
 	const callbackVote = async (proposalAddress: string, vote: boolean) => {
 		// Call the RPC method to vote on the proposal
 		await rpcProvider.proposal.vote(proposalAddress, vote, provider);
+	};
+
+	const callbackCreateProposal = async (
+		description: string,
+		requestedAmount: number,
+		tokensOffered: number,
+		fundingAddress: string,
+		daoAddress: string
+	) => {
+		if (!startupToken) {
+			return;
+		}
+		await rpcProvider.startupToken.createProposal(
+			startupToken.address,
+			description,
+			requestedAmount,
+			tokensOffered,
+			fundingAddress,
+			daoAddress, // you select from the list of available DAOs
+			provider
+		);
 	};
 	return (
 		<Tabs defaultValue="week" className="shadow-lg h-[500px]">
@@ -120,6 +147,12 @@ export default function ProposalsDataTable() {
 									Explore available investment proposals.
 								</CardDescription>
 							</div>
+							{isOwner && (
+								<div>
+									{/** Open modal here */}
+									<Button>Create</Button>
+								</div>
+							)}
 						</CardHeader>
 						<CardContent>
 							<Table>

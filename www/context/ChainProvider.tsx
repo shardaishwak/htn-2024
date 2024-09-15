@@ -51,8 +51,10 @@ const ChainProvider = ({ children }: { children: never }) => {
 
 	useEffect(() => {
 		(async () => {
-			await callbackDaos();
-			await callbackStartupTokens();
+			if (signer) {
+				await callbackDaos();
+				await callbackStartupTokens();
+			}
 		})();
 	}, [signer]);
 
@@ -61,6 +63,7 @@ const ChainProvider = ({ children }: { children: never }) => {
 			if (typeof window.ethereum !== "undefined") {
 				const provider = new ethers.BrowserProvider(window.ethereum);
 				const network = await provider.getNetwork();
+				setProvider(provider);
 				setChainId(network.chainId as any);
 				const accounts = await provider.listAccounts();
 				if (accounts.length > 0) {
