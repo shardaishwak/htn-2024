@@ -50,12 +50,12 @@ const StartupTableRow = (props: { startupToken: StartupToken }) => {
 				<div className="text-sm">{startupToken.owner}</div>
 			</TableCell>
 			<TableCell>
-				<div className="text-sm">{startupToken.maximumSupply}</div>
+				<div className="text-sm">{Number(startupToken.maximumSupply)}</div>
 			</TableCell>
 			<TableCell>
-				<div className="text-sm">${startupToken.totalSupply}</div>
+				<div className="text-sm">{Number(startupToken.totalSupply)}</div>
 			</TableCell>
-			<TableCell>{startupToken.proposalCount}</TableCell>
+			<TableCell>{Number(startupToken.proposalCount)}</TableCell>
 		</TableRow>
 	);
 };

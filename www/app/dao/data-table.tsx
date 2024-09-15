@@ -44,12 +44,14 @@ const DAOTableRow = (props: { dao: DAO }) => {
 				</div>
 			</TableCell>
 			<TableCell className="hidden sm:table-cell">{dao.description}</TableCell>
-			<TableCell className="hidden sm:table-cell">{dao.lendersCount}</TableCell>
+			<TableCell className="hidden sm:table-cell">
+				{Number(dao.lendersCount)}
+			</TableCell>
 			<TableCell className="hidden md:table-cell">
 				${dao.totalUSDCIn.toLocaleString()}
 			</TableCell>
 			<TableCell className="">${dao.totalTokensOut.toLocaleString()}</TableCell>
-			<TableCell className="">{dao.proposalCount}</TableCell>
+			<TableCell className="">{Number(dao.proposalCount)}</TableCell>
 		</TableRow>
 	);
 };

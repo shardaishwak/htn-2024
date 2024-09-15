@@ -69,7 +69,7 @@ const ChainProvider = ({ children }: { children: never }) => {
 				if (accounts.length > 0) {
 					const signer = await provider.getSigner();
 					setSigner(signer);
-					setAddress(accounts[0]);
+					setAddress(accounts[0].address);
 				}
 			}
 		})();

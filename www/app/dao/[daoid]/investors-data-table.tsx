@@ -20,7 +20,7 @@ import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { ChainContext, ChainContextType } from "@/context/chain-context";
 import { rpcProvider } from "@/rpc";
 import { Lender } from "@/rpc/types";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 import {
 	Dialog,
@@ -36,18 +36,17 @@ const InvestorsTableRow = (props: InvestorsTableRowProps) => {
 	return (
 		<TableRow>
 			<TableCell>{props.address}</TableCell>
-			<TableCell>{props.equity}</TableCell>
-			<TableCell>{props.tokens}</TableCell>
+			<TableCell>{props.equity}%</TableCell>
+			<TableCell>{props.tokens} USDC</TableCell>
 		</TableRow>
 	);
 };
 
-export default function InvestorsDataTable({ query }) {
-	const router = useRouter();
-	const daoid = router?.query?.daoid as string;
-	const { daos, provider } = useContext<ChainContextType>(ChainContext);
+export default function InvestorsDataTable() {
+	const daoid = useParams()?.daoid;
+	const { daos, provider, signer } = useContext<ChainContextType>(ChainContext);
 	const [isOpen, setIsOpen] = useState(false); // To control modal visibility
-	const [amount, setAmount] = useState(''); // To track the amount user enters
+	const [amount, setAmount] = useState(""); // To track the amount user enters
 	const [lenders, setLenders] = useState<Lender[]>([]);
 
 	const dao = daos.find((dao) => dao.symbol === daoid);
@@ -65,8 +64,9 @@ export default function InvestorsDataTable({ query }) {
 	const totalDAOfunds = dao?.totalUSDCIn || 1;
 
 	// Function to handle the lend callback
-	const callbackLend = async (daoAddress: string, amount: number) => {
-		await rpcProvider.dao.lend(daoAddress, provider, signer, amount);
+	const callbackLend = async (amount: number) => {
+		if (!dao) return;
+		await rpcProvider.dao.lend(dao.address, provider, signer, amount);
 		setIsOpen(false); // Close the modal after submission
 	};
 
@@ -111,7 +111,10 @@ export default function InvestorsDataTable({ query }) {
 											id={investor.address}
 											key={investor.address}
 											address={investor.address}
-											equity={(investor.value / totalDAOfunds).toString()}
+											equity={(
+												(+investor.value / Number(totalDAOfunds)) *
+												100
+											).toFixed(2)}
 											tokens={investor.value}
 										/>
 									))}
@@ -136,9 +139,7 @@ export default function InvestorsDataTable({ query }) {
 							</div>
 							<DialogFooter>
 								<Button
-									onClick={() =>
-										callbackLend('daoAddressPlaceholder', parseFloat(amount))
-									}
+									onClick={() => callbackLend(parseInt(amount))}
 									className=""
 								>
 									Confirm

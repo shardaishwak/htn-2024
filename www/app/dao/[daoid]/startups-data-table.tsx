@@ -17,7 +17,7 @@ import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { ChainContextType, ChainContext } from "@/context/chain-context";
 import { rpcProvider } from "@/rpc";
 import { Lender, StartupToken } from "@/rpc/types";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 
 type StartupsTableRowProps = {
@@ -43,8 +43,7 @@ const StartupsTableRow = (props: StartupsTableRowProps) => {
 };
 
 export default function StartupsDataTable() {
-	const router = useRouter(); // Initialize useRouter
-	const daoid = router?.query?.daoid as string;
+	const daoid = useParams()?.daoid as string;
 	const { daos, provider, startupTokens } =
 		useContext<ChainContextType>(ChainContext);
 

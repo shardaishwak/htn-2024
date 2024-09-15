@@ -17,7 +17,7 @@ import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { ChainContextType, ChainContext } from "@/context/chain-context";
 import { rpcProvider } from "@/rpc";
 import { StartupToken, StartupTokenDAO } from "@/rpc/types";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 
 type DAOSStartupTableRowProps = {
@@ -43,8 +43,7 @@ const DAOSStartupTableRow = (props: DAOSStartupTableRowProps) => {
 };
 
 export default function DAOSDataTable() {
-	const router = useRouter(); // Initialize useRouter
-	const startupid = router?.query?.startupid as string;
+	const startupid = useParams().startupid as string;
 	const { provider, startupTokens } =
 		useContext<ChainContextType>(ChainContext);
 

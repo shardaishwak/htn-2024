@@ -17,10 +17,12 @@ import { Tabs, TabsContent } from "@/components/ui/tabs";
 import React, { useContext, useEffect, useState } from "react"; // Assuming you have a Button component in ui
 import ApproveProposalModal from "@/app/modals/approve-proposal-modal";
 import RejectProposalModal from "@/app/modals/reject-proposal-modal";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { ChainContextType, ChainContext } from "@/context/chain-context";
 import { rpcProvider } from "@/rpc";
 import { Proposal } from "@/rpc/types";
+import { Button } from "@/components/ui/button";
+import { ethers } from "ethers";
 
 type ProposalsTableRowProps = {
 	id: string;
@@ -32,6 +34,8 @@ type ProposalsTableRowProps = {
 	onVote: (proposalId: string, vote: boolean) => void;
 	voted: boolean;
 	voteSelection: boolean;
+	onFinalize: (proposalId: string) => void;
+	votingApproval: number;
 };
 
 const ProposalsTableRow = (props: ProposalsTableRowProps) => {
@@ -54,18 +58,20 @@ const ProposalsTableRow = (props: ProposalsTableRowProps) => {
 				<TableCell className="hidden md:table-cell">
 					{props.tokensOffered.toLocaleString()} tokens
 				</TableCell>
-				<TableCell>
-					<div className="flex space-x-2">
-						<ApproveProposalModal
-							onConfirm={() => props.onVote(props.id, true)}
-							disabled={props.voted}
-						/>
-						<RejectProposalModal
-							onConfirm={() => props.onVote(props.id, false)}
-							disabled={props.voted}
-						/>
-					</div>
-				</TableCell>
+				{props.status !== "Completed" && (
+					<TableCell>
+						<div className="flex space-x-2">
+							<ApproveProposalModal
+								onConfirm={() => props.onVote(props.id, true)}
+								disabled={props.voted}
+							/>
+							<RejectProposalModal
+								onConfirm={() => props.onVote(props.id, false)}
+								disabled={props.voted}
+							/>
+						</div>
+					</TableCell>
+				)}
 			</TableRow>
 
 			{/* Expandable row (only visible when expanded) */}
@@ -75,6 +81,14 @@ const ProposalsTableRow = (props: ProposalsTableRowProps) => {
 						<div className="p-4">
 							<strong>Description:</strong> {props.description}
 						</div>
+						{props.status !== "Completed" && (
+							<div>
+								{Number(ethers.formatUnits(props.votingApproval, 6))}%
+								<Button onClick={() => props.onFinalize(props.id)}>
+									Finalize
+								</Button>
+							</div>
+						)}
 					</TableCell>
 				</TableRow>
 			)}
@@ -83,8 +97,7 @@ const ProposalsTableRow = (props: ProposalsTableRowProps) => {
 };
 
 export default function ProposalsDataTable() {
-	const router = useRouter(); // Initialize useRouter
-	const daoid = router?.query?.daoid as string;
+	const daoid = useParams()?.daoid as string;
 	const { daos, provider } = useContext<ChainContextType>(ChainContext);
 
 	const [proposals, setProposals] = useState<Proposal[]>([]);
@@ -104,6 +117,9 @@ export default function ProposalsDataTable() {
 		}
 	}, [dao]);
 
+	const callbackFinalize = async (proposalAddress: string) => {
+		await rpcProvider.proposal.finalize(proposalAddress, provider);
+	};
 	const callbackVote = async (proposalAddress: string, vote: boolean) => {
 		// Call the RPC method to vote on the proposal
 		await rpcProvider.proposal.vote(proposalAddress, vote, provider);
@@ -149,6 +165,8 @@ export default function ProposalsDataTable() {
 											onVote={callbackVote}
 											voted={proposal.voted}
 											voteSelection={proposal.voteSelection}
+											onFinalize={callbackFinalize}
+											votingApproval={proposal.votingPower}
 										/>
 									))}
 								</TableBody>

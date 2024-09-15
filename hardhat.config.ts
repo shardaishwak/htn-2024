@@ -32,7 +32,7 @@ const config: HardhatUserConfig = {
 		hardhat: {
 			chainId: 8545, // Local network
 			forking: {
-				url: process.env.BASE_RPC_URL as string,
+				url: process.env.SEPOLIA_RPC_URL as string,
 			},
 			gasPrice: 20000000000, // 20 gwei
 		},
@@ -40,7 +40,6 @@ const config: HardhatUserConfig = {
 			url: "http://0.0.0.0:8545",
 			chainId: 8453,
 		},
-
 		...deploymentNetworks,
 	},
 };

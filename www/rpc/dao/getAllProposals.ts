@@ -26,7 +26,7 @@ export default async function getAllProposals(
 				dao: details[1],
 				founder: details[2],
 				description: details[3],
-				requestedAmount: details[4],
+				requestedAmount: ethers.formatUnits(details[4], 6),
 				tokensOffered: details[5],
 				fundingAddress: details[6],
 				votesFor: details[7],

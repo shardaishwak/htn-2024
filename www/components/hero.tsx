@@ -1,9 +1,19 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { ChainContext } from "@/context/chain-context";
+import { rpcProvider } from "@/rpc";
 
 export default function Hero() {
-	const { connectWallet, address } = useContext(ChainContext);
+	const { connectWallet, address, provider } = useContext(ChainContext);
+
+	const [usdcBalance, setUsdcBalance] = useState(0);
+
+	useEffect(() => {
+		(async () => {
+			const usdcBalance = await rpcProvider.wallet.getUSDCBalance(provider);
+			setUsdcBalance(usdcBalance);
+		})();
+	}, []);
 
 	return (
 		<div className="flex flex-col items-center bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900">
@@ -25,13 +35,17 @@ export default function Hero() {
 				</p>
 
 				{/* Connect Wallet Button */}
-				{!address && (
+				{(!address && (
 					<Button
 						onClick={connectWallet}
 						className="bg-white text-gray-900 py-3 px-6 shadow-lg mt-8"
 					>
 						Connect to Wallet
 					</Button>
+				)) || (
+					<h1 className="text-md lg:text-lg text-gray-400 mt-6 text-center max-w-2xl">
+						USDC Balance: {usdcBalance}
+					</h1>
 				)}
 			</div>
 		</div>

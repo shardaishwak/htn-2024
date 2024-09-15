@@ -27,7 +27,7 @@ export default async function getAllDAOs(provider: any) {
 				usdcToken: details[0],
 				daoCreator: details[1],
 				description: details[2],
-				totalUSDCIn: details[3],
+				totalUSDCIn: ethers.formatUnits(details[3], 6),
 				totalTokensOut: details[4],
 				name: details[5],
 				symbol: details[6],
