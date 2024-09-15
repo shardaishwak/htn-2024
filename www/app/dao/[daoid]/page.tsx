@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useParams } from 'next/navigation';
+import {PieCard} from './chart';
 import { DaoDataTable } from "./data-table";  // Ensure this import is correct
 import { InvestmentData, investment_columns } from './columns';  // Update to use the new columns
 import {
@@ -13,7 +14,11 @@ import {
   TableCell,
   TableRow,
 } from "@/components/ui/table";
-
+const sampleChartData = [
+  { browser: "Chrome", investors: 275 },
+  { browser: "Safari", investors: 200 },
+  { browser: "Firefox", investors: 287 },
+];
 const investorsData = [
   {
     id: "investor001",
@@ -83,12 +88,7 @@ const DaoPage = () => {
     <div className='min-h-screen bg-gray-50 p-8'>
       <div className='max-w-4xl mx-auto'>
         <header className='text-center mb-12'>
-          <h1 className='text-4xl font-bold text-gray-900 mb-4'>
-            DAO Details
-          </h1>
-          <p className='text-xl text-gray-600'>
-            View the investments and investors for this DAO.
-          </p>
+        <PieCard chartData={sampleChartData} />
         </header>
         {/* Tabs system for Investments and Investors */}
         <Tabs defaultValue="investments" className="w-full">
