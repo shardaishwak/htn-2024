@@ -2,18 +2,22 @@ import React, { useContext, useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { ChainContext } from "@/context/chain-context";
 import { rpcProvider } from "@/rpc";
+import { ethers } from "ethers";
+import Image from "next/image";
 
 export default function Hero() {
-	const { connectWallet, address, provider } = useContext(ChainContext);
+	const { connectWallet, address, provider, signer } = useContext(ChainContext);
 
 	const [usdcBalance, setUsdcBalance] = useState(0);
 
 	useEffect(() => {
 		(async () => {
-			const usdcBalance = await rpcProvider.wallet.getUSDCBalance(provider);
-			setUsdcBalance(usdcBalance);
+			if (signer) {
+				const balance = await rpcProvider.wallet.getUSDCBalance(provider);
+				setUsdcBalance(balance);
+			}
 		})();
-	}, []);
+	}, [signer]);
 
 	return (
 		<div className="flex flex-col items-center bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900">
@@ -43,9 +47,24 @@ export default function Hero() {
 						Connect to Wallet
 					</Button>
 				)) || (
-					<h1 className="text-md lg:text-lg text-gray-400 mt-6 text-center max-w-2xl">
-						USDC Balance: {usdcBalance}
-					</h1>
+					<div className="flex flex-row gap-2 item-center justify-center">
+						<Image
+							src={"https://cryptologos.cc/logos/usd-coin-usdc-logo.png?v=034"}
+							className="w-12 h-12"
+							width={20}
+							height={20}
+							objectFit="cover"
+							alt="USDC Logo"
+							style={{
+								width: 30,
+								height: 30,
+								marginTop: 20,
+							}}
+						/>
+						<h1 className="text-md font-bold lg:text-lg text-gray-400 mt-6 text-center max-w-2xl">
+							USDC Balance: {ethers.formatUnits(usdcBalance, 6)}
+						</h1>
+					</div>
 				)}
 			</div>
 		</div>

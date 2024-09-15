@@ -9,7 +9,7 @@ async function main() {
 
 	const usdc = await ethers.getContractAt(
 		"MockUSDC",
-		"0x948169dD9bF9e080E631F262894E54b6D1647F85"
+		"0x9314Bfe3242B33daC1e7D1B9BdC9198B5045556D"
 	);
 	const usdcBalance = await usdc.balanceOf(myAddress);
 

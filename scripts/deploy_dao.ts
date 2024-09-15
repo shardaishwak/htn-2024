@@ -7,18 +7,15 @@ async function main() {
 
 	const usdc = await ethers.getContractAt(
 		"MockUSDC",
-		"0x948169dD9bF9e080E631F262894E54b6D1647F85"
+		"0x9314Bfe3242B33daC1e7D1B9BdC9198B5045556D"
 	);
 
 	const daoFactory = await ethers.getContractAt(
 		"DAOFactory",
-		"0x6fC8404a68eff59df1eab9a26Cb1228643778579"
+		"0x9B3D341cd79fb5A9Ed85fBD06DC5CAbF48D6f16d"
 	);
 
-	const tx = await daoFactory.createDAO(
-		await usdc.getAddress(),
-		"This is my DAO!!"
-	);
+	const tx = await daoFactory.createDAO(await usdc.getAddress(), "FinTech DAO");
 	await tx.wait();
 
 	const daoAddress = await daoFactory.daos(0);

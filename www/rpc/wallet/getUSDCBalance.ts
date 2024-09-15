@@ -9,7 +9,6 @@ export default async function getUSDCBalance(provider) {
 		const usdcAddress = chainConfig.contracts.usdc.address;
 		const usdcAbi = chainConfig.contracts.usdc.abi;
 		const usdc = new ethers.Contract(usdcAddress, usdcAbi, provider);
-		console.log(address);
 
 		const balance = await usdc.balanceOf(address);
 

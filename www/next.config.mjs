@@ -7,6 +7,14 @@ const nextConfig = {
         // !! WARN !!
         ignoreBuildErrors: true,
       },
+      images: {
+        remotePatterns: [
+          {
+            protocol: 'https',
+            hostname: 'cryptologos.cc',
+          },
+        ],
+      },
 };
 
 export default nextConfig;
