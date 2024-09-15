@@ -38,4 +38,5 @@ export type StartupToken = {
 	maximumSupply: number;
 	proposalCount: number;
 	owner: string;
+	totalFundingReceived: number;
 };

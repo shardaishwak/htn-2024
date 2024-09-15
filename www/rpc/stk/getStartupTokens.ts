@@ -27,6 +27,7 @@ export default async function getStartupTokens(provider: any) {
 				maximumSupply: details[3],
 				proposalCount: details[4],
 				owner: details[5],
+				totalFundingReceived: details[6],
 			});
 		}
 

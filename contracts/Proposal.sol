@@ -83,7 +83,7 @@ contract Proposal {
         if (canApprove()) {
             // Transfer USDC from DAO to the funding address
             dao.transferFundsToProposal(fundingAddress, requestedAmount);
-
+            startupToken.increaseTotalFundingReceived(requestedAmount);
             // Transfer tokens to DAO
             startupToken.transfer(address(dao), tokensOffered);
 

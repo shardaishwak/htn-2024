@@ -10,6 +10,8 @@ contract StartupToken is ERC20, Ownable {
     Proposal[] public proposalAddresses; // Store proposal IDs created by this token
     uint256 public maximumSupply;
 
+    uint256 public totalFundingReceived;
+
     // Put the total funding received.
     // Who are the investors.
 
@@ -86,6 +88,7 @@ contract StartupToken is ERC20, Ownable {
         uint256 maximumSupply;
         uint256 proposalCount;
         address owner;
+        uint256 totalFundingReceived;
     }
     function getDetails() external view returns (StartupTokenDetails memory) {
         return
@@ -95,7 +98,12 @@ contract StartupToken is ERC20, Ownable {
                 totalSupply: totalSupply(),
                 maximumSupply: maximumSupply,
                 proposalCount: proposalAddresses.length,
-                owner: owner()
+                owner: owner(),
+                totalFundingReceived: totalFundingReceived
             });
+    }
+
+    function increaseTotalFundingReceived(uint256 amount) external {
+        totalFundingReceived += amount;
     }
 }
