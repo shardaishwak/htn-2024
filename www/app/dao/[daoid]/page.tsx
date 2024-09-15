@@ -1,10 +1,10 @@
 'use client'
-import React from 'react'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { useParams } from 'next/navigation'
-import { DaoDataTable } from "./data-table"  // Ensure this import is correct
-import { InvestmentData, investment_columns } from './columns'  // Update to use the new columns
+import React, { useState } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { useParams } from 'next/navigation';
+import { DaoDataTable } from "./data-table";  // Ensure this import is correct
+import { InvestmentData, investment_columns } from './columns';  // Update to use the new columns
 import {
   Table,
   TableBody,
@@ -12,7 +12,8 @@ import {
   TableHeader,
   TableCell,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
+
 const investorsData = [
   {
     id: "investor001",
@@ -58,91 +59,110 @@ const daosData = [
 ]
 
 const DaoPage = () => {
-    const params = useParams()
-    const { id } = params
+  const params = useParams();
+  const { id } = params;
 
-    return (
-        <div className='min-h-screen bg-gray-50 p-8'>
-            <div className='max-w-4xl mx-auto'>
-                <header className='text-center mb-12'>
-                    <h1 className='text-4xl font-bold text-gray-900 mb-4'>
-                        DAO Details
-                    </h1>
-                    <p className='text-xl text-gray-600'>
-                        View the investments and investors for this DAO.
-                    </p>
-                </header>
-                {/* Tabs system for Investments and Investors */}
-                <Tabs defaultValue="investments" className="w-full">
-                    <TabsList className="grid w-full grid-cols-2 bg-white rounded-lg shadow-md mb-6 h-[60px] gap-x-3">
-                        <TabsTrigger
-                            value="investments"
-                            className="py-3 hover:bg-gray-100 cursor-pointer text-center font-semibold text-gray-700 border-b-4 border-transparent"
-                        >
-                            Investments
-                        </TabsTrigger>
-                        <TabsTrigger
-                            value="investors"
-                            className="py-3 hover:bg-gray-100 cursor-pointer text-center font-semibold text-gray-700 border-b-4 border-transparent"
-                        >
-                            Investors
-                        </TabsTrigger>
-                    </TabsList>
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+  const [sortedData, setSortedData] = useState(investorsData);
 
-                    {/* Tab Content for Investments */}
-                    <TabsContent value='investments'>
-                        <Card className='shadow-lg'>
-                            <CardHeader>
-                                <CardTitle className='text-2xl'>DAO Investments</CardTitle>
-                                <CardDescription>
-                                    Explore the investments for the selected DAO.
-                                </CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="container mx-auto py-10">
-                                    <DaoDataTable columns={investment_columns} data={investmentData} />
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </TabsContent>
+  const handleSort = () => {
+    const direction = sortDirection === 'asc' ? 'desc' : 'asc';
+    setSortDirection(direction);
 
-                    {/* Tab Content for Investors */}
-                    <TabsContent value='investors'>
-                        <Card className='shadow-lg'>
-                            <CardHeader>
-                                <CardTitle className='text-2xl'>Investors</CardTitle>
-                                <CardDescription>
-                                    Here you can see the list of investors.
-                                </CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="flex justify-center">
-                                    <Table className="w-3/4">
-                                        <TableHeader>
-                                            <TableRow>
-                                                <TableHead className="w-[200px] text-center">Investor Address</TableHead>
-                                                <TableHead className="w-[200px] text-center">Equity</TableHead>
-                                                <TableHead className="text-center">Tokens</TableHead>
-                                            </TableRow>
-                                        </TableHeader>
-                                        <TableBody>
-                                            {investorsData.map((investor, index) => (
-                                                <TableRow key={index}>
-                                                    <TableCell className="font-medium text-center">{investor.address}</TableCell>
-                                                    <TableCell className="text-center">{investor.equity}%</TableCell>
-                                                    <TableCell className="text-center">{investor.tokens}</TableCell>
-                                                </TableRow>
-                                            ))}
-                                        </TableBody>
-                                    </Table>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </TabsContent>
-                </Tabs>
-            </div>
-        </div>
-    )
+    const sorted = [...investorsData].sort((a, b) => {
+      const equityA = parseFloat(a.equity.replace('%', ''));
+      const equityB = parseFloat(b.equity.replace('%', ''));
+      
+      return direction === 'asc' ? equityA - equityB : equityB - equityA;
+    });
+
+    setSortedData(sorted);
+  };
+
+  return (
+    <div className='min-h-screen bg-gray-50 p-8'>
+      <div className='max-w-4xl mx-auto'>
+        <header className='text-center mb-12'>
+          <h1 className='text-4xl font-bold text-gray-900 mb-4'>
+            DAO Details
+          </h1>
+          <p className='text-xl text-gray-600'>
+            View the investments and investors for this DAO.
+          </p>
+        </header>
+        {/* Tabs system for Investments and Investors */}
+        <Tabs defaultValue="investments" className="w-full">
+          <TabsList className="grid w-full grid-cols-2 bg-white rounded-lg shadow-md mb-6 h-[60px] gap-x-3">
+            <TabsTrigger
+              value="investments"
+              className="py-3 hover:bg-gray-100 cursor-pointer text-center font-semibold text-gray-700 border-b-4 border-transparent"
+            >
+              Investments
+            </TabsTrigger>
+            <TabsTrigger
+              value="investors"
+              className="py-3 hover:bg-gray-100 cursor-pointer text-center font-semibold text-gray-700 border-b-4 border-transparent"
+            >
+              Investors
+            </TabsTrigger>
+          </TabsList>
+
+          {/* Tab Content for Investments */}
+          <TabsContent value='investments'>
+            <Card className='shadow-lg'>
+              <CardHeader>
+                <CardTitle className='text-2xl'>DAO Investments</CardTitle>
+                <CardDescription>
+                  Explore the investments for the selected DAO.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="container mx-auto py-10">
+                  <DaoDataTable columns={investment_columns} data={investmentData} />
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Tab Content for Investors */}
+          <TabsContent value='investors'>
+            <Card className='shadow-lg'>
+              <CardHeader>
+                <CardTitle className='text-2xl'>Investors</CardTitle>
+                <CardDescription>
+                  Here you can see the list of investors.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex justify-center">
+                  <Table className="w-3/4">
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="w-[200px] text-center">Investor Address</TableHead>
+                        <TableHead className="w-[200px] text-center cursor-pointer" onClick={handleSort}>
+                          Equity {sortDirection === 'asc' ? '▲' : '▼'}
+                        </TableHead>
+                        <TableHead className="text-center">Tokens</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {sortedData.map((investor, index) => (
+                        <TableRow key={index}>
+                          <TableCell className="font-medium text-center">{investor.address}</TableCell>
+                          <TableCell className="text-center">{investor.equity}</TableCell>
+                          <TableCell className="text-center">{investor.tokens}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
+      </div>
+    </div>
+  );
 }
 
-export default DaoPage
+export default DaoPage;
