@@ -3,7 +3,7 @@ import { Button } from "./ui/button";
 import { ChainContext } from "@/context/chain-context";
 
 export default function Hero() {
-	const { connectWallet, address } = useContext(ChainContext);
+
 
 	return (
 		<div className="flex flex-col items-center bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900">
@@ -25,14 +25,7 @@ export default function Hero() {
 				</p>
 
 				{/* Connect Wallet Button */}
-				{!address && (
-					<Button
-						onClick={connectWallet}
-						className="bg-white text-gray-900 py-3 px-6 shadow-lg mt-8"
-					>
-						Connect to Wallet
-					</Button>
-				)}
+
 			</div>
 		</div>
 	);
