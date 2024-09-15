@@ -40,7 +40,8 @@ const config: HardhatUserConfig = {
 			url: "http://0.0.0.0:8545",
 			chainId: 8453,
 		},
-		// ...deploymentNetworks,
+
+		...deploymentNetworks,
 	},
 };
 
