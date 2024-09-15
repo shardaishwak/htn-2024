@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog"
 import React, { useState } from 'react'
 
-export default function InvestmentConfirmationDialog() {
+export default function InvestIntoDaoModal() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   // Dummy variable for the investment amount

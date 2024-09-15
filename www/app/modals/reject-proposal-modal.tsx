@@ -14,7 +14,7 @@ interface RejectionDialogProps {
   onConfirm: () => void;
 }
 
-export default function RejectionDialog({ onConfirm }: RejectionDialogProps) {
+export default function RejectProposalModal({ onConfirm }: RejectionDialogProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleReject = () => {
@@ -30,8 +30,8 @@ export default function RejectionDialog({ onConfirm }: RejectionDialogProps) {
 
   return (
     <div>
-      <Button variant="destructive" onClick={() => setIsDialogOpen(true)}>
-        Reject Proposition
+      <Button variant={"outline"} className='py-0' onClick={() => setIsDialogOpen(true)}>
+        Reject
       </Button>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
