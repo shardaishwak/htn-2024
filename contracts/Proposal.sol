@@ -105,6 +105,10 @@ contract Proposal {
         uint256 votesFor;
         uint256 votesAgainst;
         bool finalized;
+        bool voted;
+        bool voteSelection;
+        bool canFinalize;
+        uint256 votingPower;
     }
 
     function getDetails() external view returns (ProposalDetails memory) {
@@ -119,7 +123,13 @@ contract Proposal {
                 fundingAddress: fundingAddress,
                 votesFor: votesFor,
                 votesAgainst: votesAgainst,
-                finalized: finalized
+                finalized: finalized,
+                voted: hasVoted[msg.sender],
+                voteSelection: hasVoted[msg.sender]
+                    ? votesFor > votesAgainst
+                    : false,
+                canFinalize: canApprove(),
+                votingPower: calculateVotingPower()
             });
     }
 }

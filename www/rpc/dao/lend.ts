@@ -28,7 +28,15 @@ export default async function lend(
 		const lendTx = await daoSigner.lend(lendingUSDCAmount);
 		await lendTx.wait();
 
-		console.log("[DAO", "Lent", value, "USDC to DAO", daoAddress);
+		console.log(
+			"[DAO",
+			"Lent",
+			value,
+			"USDC to DAO",
+			daoAddress,
+			"Tx:",
+			lendTx.hash
+		);
 	} catch (error) {
 		console.error("Error when lending:", error);
 		throw new Error(`Failed to lend: ${error.message}`);
