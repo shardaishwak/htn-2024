@@ -1,11 +1,11 @@
 import { ethers } from "hardhat";
 
-const daoFactoryAddress = "0x";
-const description = "0x";
+const daoFactoryAddress = "0x200D4f7AA401C681CC5cc3BBCAB249bccf620c3e";
+const description = "FinTech DAO.";
 const usdcAddress = "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238";
 
 async function main() {
-	const [deployer, account1] = await ethers.getSigners();
+	const [deployer] = await ethers.getSigners();
 	console.log(`Deployer: ${deployer.address}`);
 
 	const daoFactory = await ethers.getContractAt(
@@ -13,7 +13,8 @@ async function main() {
 		daoFactoryAddress
 	);
 
-	await daoFactory.createDAO(usdcAddress, description);
+	const tx = await daoFactory.createDAO(usdcAddress, description);
+	await tx.wait();
 
 	const daoAddress = await daoFactory.daos(0);
 
