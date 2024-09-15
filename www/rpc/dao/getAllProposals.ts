@@ -32,10 +32,10 @@ export default async function getAllProposals(
 				votesFor: details[7],
 				votesAgainst: details[8],
 				finalized: details[9],
-				// voted: details[10],
-				// voteSelection: details[11],
-				// canFinalize: details[12],
-				// votingPower: details[13],
+				voted: details[10],
+				voteSelection: details[11],
+				canFinalize: details[12],
+				votingPower: details[13],
 			});
 		}
 
