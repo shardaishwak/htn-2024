@@ -1,3 +1,9 @@
+# DAFP - Decentralized Autonomous Fundraising Platform
+
+<img width="2056" alt="Screenshot 2024-09-15 at 4 29 48 AM" src="https://github.com/user-attachments/assets/9b1df2c6-5f45-4c49-9cfe-4f44c93503c1">
+
+
+
 # Inspiration
 
 Traditional startup fundraising is often restricted by stringent regulations, which make it difficult for small investors and emerging founders to participate. These barriers favor established VC firms and high-networth individuals, limiting innovation and excluding a broad range of potential investors. Our goal is to break down these barriers by creating a decentralized, community-driven fundraising platform that democratizes startup investments through a Decentralized Autonomous Organization, also known as DAO.
@@ -26,6 +32,9 @@ To achieve this, our platform leverages blockchain technology and the DAO struct
 - **TypeScript** for type safety and better maintainability.
 - **TailwindCSS** for rapid, visually appealing design.
 - **Shadcn UI** for accessible and consistent component design.
+
+![Modern Business Process Flowchart (1)](https://github.com/user-attachments/assets/762b7f1c-25e1-4e44-925a-0b11d951e116)
+
 
 # Challenges We Faced, Solutions, and Learning
 
