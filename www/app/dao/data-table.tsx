@@ -1,25 +1,10 @@
-"use client"
-import * as React from "react"
 import {
-  ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from "@tanstack/react-table"
-import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import {
   Table,
   TableBody,
@@ -27,145 +12,124 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from '@/components/ui/table';
+import { Tabs, TabsContent } from '@/components/ui/tabs';
+import React from 'react';
+import { useRouter } from 'next/navigation'; // Import useRouter
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
-}
+type DAOTableRowProps = {
+  dao_name: string;
+  dao_token: string;
+  industry: string;
+  no_of_investors: number;
+  contributions_to_dao: number;
+  invested_in_startups: number;
+  numberOfProposals: number;
+};
 
-export function DaoDataTable<TData, TValue>({
-  columns,
-  data,
-}: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  )
-  const [columnVisibility, setColumnVisibility] =
-  React.useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState({})
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    onSortingChange: setSorting,
-    getSortedRowModel: getSortedRowModel(),
-    onColumnFiltersChange: setColumnFilters,
-    getFilteredRowModel: getFilteredRowModel(),
-    onColumnVisibilityChange: setColumnVisibility,
-    onRowSelectionChange: setRowSelection,
-    state: {
-      sorting,
-      columnFilters,
-      columnVisibility,
-      rowSelection,
-    },
-  })
+const DAOTableRow = (props: DAOTableRowProps) => {
+  const router = useRouter(); // Initialize useRouter
+
+  // Handle row click
+  const handleRowClick = () => {
+    router.push(`/dao/${props.dao_token}`);
+  };
 
   return (
-    <div>
-          <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter(
-                (column) => column.getCanHide()
-              )
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                )
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
+    <TableRow
+      className={'cursor-pointer'} // Make row clickable
+      onClick={handleRowClick} // Add click handler
+    >
+      <TableCell>
+        <div className='font-medium'>{props.dao_name}</div>
+      </TableCell>
+      <TableCell>
+        <div className='hidden text-sm text-muted-foreground md:inline'>
+          {props.dao_token}
+        </div>
+      </TableCell>
+      <TableCell className='hidden sm:table-cell'>{props.industry}</TableCell>
+      <TableCell className='hidden sm:table-cell'>{props.no_of_investors}</TableCell>
+      <TableCell className='hidden md:table-cell'>
+        ${props.contributions_to_dao.toLocaleString()}
+      </TableCell>
+      <TableCell className=''>
+        ${props.invested_in_startups.toLocaleString()}
+      </TableCell>
+      <TableCell className=''>{props.numberOfProposals}</TableCell>
+    </TableRow>
+  );
+};
+
+const data = [
+  {
+    id: 'dao001',
+    dao_name: 'DAO 1',
+    dao_token: 'DAO1',
+    industry: 'Tech',
+    no_of_investors: 120,
+    contributions_to_dao: 500000.0,
+    invested_in_startups: 300000.0,
+    numberOfProposals: 15,
+  },
+  {
+    id: 'dao002',
+    dao_name: 'DAO 2',
+    dao_token: 'DAO2',
+    industry: 'Tech',
+    no_of_investors: 85,
+    contributions_to_dao: 350000.0,
+    invested_in_startups: 150000.0,
+    numberOfProposals: 22,
+  },
+];
+
+export default function DaoDataTable() {
+  return (
+    <Tabs defaultValue='week' className='shadow-lg h-[500px]'>
+      <div className='flex flex-col'>
+        <TabsContent value='week'>
+          <Card x-chunk='dashboard-05-chunk-3'>
+            <CardHeader className='px-7 justify-between flex-col md:flex-row'>
+              <div className='space-y-2'>
+                <CardTitle>Decentralized Autonomous Organizations</CardTitle>
+                <CardDescription>
+                  Explore available Decentralized Autonomous Organizations.
+                </CardDescription>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Name</TableHead>
+                    <TableHead>Token</TableHead>
+                    <TableHead className='hidden sm:table-cell'>Industry</TableHead>
+                    <TableHead className='hidden sm:table-cell'># of Investors</TableHead>
+                    <TableHead className='hidden md:table-cell'>Total Contributions to DAO</TableHead>
+                    <TableHead className=''>DAO Investment in Startups</TableHead>
+                    <TableHead className=''># of Proposals</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {data.map((dao) => (
+                    <DAOTableRow
+                      key={dao.id}
+                      dao_name={dao.dao_name}
+                      dao_token={dao.dao_token}
+                      industry={dao.industry}
+                      no_of_investors={dao.no_of_investors}
+                      contributions_to_dao={dao.contributions_to_dao}
+                      invested_in_startups={dao.invested_in_startups}
+                      numberOfProposals={dao.numberOfProposals}
+                    />
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </TabsContent>
       </div>
-    <div className="rounded-md border">
-      <Table>
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
-                return (
-                  <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </TableHead>
-                )
-              })}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-    </div>
-    <div className="flex items-center justify-end space-x-2 py-4">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Previous
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          Next
-        </Button>
-      </div>
-    </div>
-  )
+    </Tabs>
+  );
 }
