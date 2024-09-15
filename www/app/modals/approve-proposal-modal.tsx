@@ -14,7 +14,7 @@ interface ApprovalDialogProps {
   onConfirm: () => void;
 }
 
-export default function ApprovalDialog({ onConfirm }: ApprovalDialogProps) {
+export default function ApproveProposalModal({ onConfirm }: ApprovalDialogProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleApprove = () => {
@@ -30,8 +30,8 @@ export default function ApprovalDialog({ onConfirm }: ApprovalDialogProps) {
 
   return (
     <div>
-      <Button variant="outline" onClick={() => setIsDialogOpen(true)}>
-        Approve Proposition
+      <Button className='bg-black text-white' onClick={() => setIsDialogOpen(true) }>
+        Approve
       </Button>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
