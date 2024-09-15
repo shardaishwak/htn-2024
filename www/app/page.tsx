@@ -11,7 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import DaoDataTable from "./dao/data-table";
 import Hero from "@/components/hero";
-import StartupDataTable from "./startups/data-table";
+import StartupDataTable from "./startups/startup-data-table";
 
 export default function HomePage() {
 	//   const daoAddress = '0x';

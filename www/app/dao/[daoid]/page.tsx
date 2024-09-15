@@ -5,7 +5,7 @@ import Chart from './chart';
 
 import ProposalsDataTable from './proposals-data-table';
 import InvestorsDataTable from './investors-data-table';
-import StartupDataTable from '@/app/startups/data-table';
+import StartupsDataTable from './startups-data-table';
 
 
 const DaoPage = () => {
@@ -51,7 +51,7 @@ const DaoPage = () => {
           </TabsContent>
 
           <TabsContent value='startups'>
-            <StartupDataTable />
+            <StartupsDataTable />
           </TabsContent>
         </Tabs>
       </div>

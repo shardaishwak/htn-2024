@@ -14,8 +14,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Tabs, TabsContent } from '@/components/ui/tabs';
-import React, { useState } from 'react';
-import { Button } from '@/components/ui/button'; // Assuming you have a Button component in ui
+import React, { useState } from 'react'; // Assuming you have a Button component in ui
 import ApproveProposalModal from '@/app/modals/approve-proposal-modal';
 import RejectProposalModal from '@/app/modals/reject-proposal-modal';
 
