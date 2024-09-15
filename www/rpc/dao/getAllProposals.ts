@@ -6,12 +6,29 @@ export default async function getAllProposals(
 	provider: any
 ) {
 	try {
-		const abi = chainConfig.contracts.dao.abi;
+		const daoAbi = chainConfig.contracts.dao.abi;
 
-		const dao = new ethers.Contract(daoAddress, abi, provider);
-		const proposals = await dao.getAllProposals();
+		const dao = new ethers.Contract(daoAddress, daoAbi, provider);
+		const proposalsAddresses = await dao.getAllProposals();
 
-		console.log(proposals);
+		// for each address we need to get the proposal
+		const proposals: any[] = [];
+		for (let i = 0; i < proposalsAddresses.length; i++) {
+			const proposal = new ethers.Contract(
+				proposalsAddresses[i],
+				chainConfig.contracts.proposal.abi,
+				provider
+			);
+			const details = await proposal.getDetails();
+			proposals.push({
+				address: proposalsAddresses[i],
+				...details,
+			});
+		}
+
+		console.log("[DAO]", "Proposals", proposals);
+
+		return proposals;
 	} catch (error) {
 		console.error("Error getting all proposals:", error);
 		throw new Error(`Failed to get all proposals: ${error.message}`);

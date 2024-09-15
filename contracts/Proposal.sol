@@ -86,6 +86,8 @@ contract Proposal {
 
             // Transfer tokens to DAO
             startupToken.transfer(address(dao), tokensOffered);
+
+            dao.addAsset(address(startupToken), tokensOffered);
         } else {
             // Return tokens to the founder
             startupToken.transfer(founder, tokensOffered);
