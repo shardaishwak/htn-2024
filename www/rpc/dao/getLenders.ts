@@ -14,7 +14,8 @@ export default async function getLenders(daoAddress: string, provider: any) {
 			const lenderValue = await dao.lenders(lendersAddresses[i]);
 			lenders.push({
 				address: lendersAddresses[i],
-				value: lenderValue,
+				value: ethers.formatUnits(lenderValue, 6),
+				token: "USDC",
 			});
 		}
 

@@ -32,6 +32,7 @@ export default function HomePage() {
 	return (
 		<div className="min-h-screen bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 p-8">
 			<Hero />
+
 			<div className="max-w-4xl mx-auto">
 				{/* Tabs positioned at top left */}
 				<Tabs defaultValue="daos" className="relative">
