@@ -26,10 +26,33 @@
                 "internalType": "string",
                 "name": "_symbol",
                 "type": "string"
+              },
+              {
+                "internalType": "string",
+                "name": "_description",
+                "type": "string"
               }
             ],
             "stateMutability": "nonpayable",
             "type": "constructor"
+          },
+          {
+            "inputs": [
+              {
+                "internalType": "address",
+                "name": "assetOwner",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "tokenAmount",
+                "type": "uint256"
+              }
+            ],
+            "name": "addAsset",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
           },
           {
             "inputs": [
@@ -40,6 +63,44 @@
               }
             ],
             "name": "assets",
+            "outputs": [
+              {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+              }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+          },
+          {
+            "inputs": [
+              {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+              }
+            ],
+            "name": "assetsList",
+            "outputs": [
+              {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+              }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+          },
+          {
+            "inputs": [
+              {
+                "internalType": "address",
+                "name": "account",
+                "type": "address"
+              }
+            ],
+            "name": "checkAllowance",
             "outputs": [
               {
                 "internalType": "uint256",
@@ -65,10 +126,99 @@
           },
           {
             "inputs": [],
+            "name": "description",
+            "outputs": [
+              {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+              }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+          },
+          {
+            "inputs": [],
             "name": "getAllProposals",
             "outputs": [
               {
                 "internalType": "contract Proposal[]",
+                "name": "",
+                "type": "address[]"
+              }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+          },
+          {
+            "inputs": [],
+            "name": "getAssets",
+            "outputs": [
+              {
+                "internalType": "address[]",
+                "name": "",
+                "type": "address[]"
+              }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+          },
+          {
+            "inputs": [],
+            "name": "getDetails",
+            "outputs": [
+              {
+                "components": [
+                  {
+                    "internalType": "address",
+                    "name": "usdcToken",
+                    "type": "address"
+                  },
+                  {
+                    "internalType": "address",
+                    "name": "daoCreator",
+                    "type": "address"
+                  },
+                  {
+                    "internalType": "string",
+                    "name": "description",
+                    "type": "string"
+                  },
+                  {
+                    "internalType": "uint256",
+                    "name": "totalUSDCIn",
+                    "type": "uint256"
+                  },
+                  {
+                    "internalType": "uint256",
+                    "name": "totalTokensOut",
+                    "type": "uint256"
+                  },
+                  {
+                    "internalType": "string",
+                    "name": "name",
+                    "type": "string"
+                  },
+                  {
+                    "internalType": "string",
+                    "name": "symbol",
+                    "type": "string"
+                  }
+                ],
+                "internalType": "struct DAO.DAODetails",
+                "name": "",
+                "type": "tuple"
+              }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+          },
+          {
+            "inputs": [],
+            "name": "getLenders",
+            "outputs": [
+              {
+                "internalType": "address[]",
                 "name": "",
                 "type": "address[]"
               }
@@ -90,6 +240,25 @@
                 "internalType": "contract Proposal",
                 "name": "",
                 "type": "address"
+              }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+          },
+          {
+            "inputs": [
+              {
+                "internalType": "address",
+                "name": "startup",
+                "type": "address"
+              }
+            ],
+            "name": "getStartupProposals",
+            "outputs": [
+              {
+                "internalType": "contract Proposal[]",
+                "name": "",
+                "type": "address[]"
               }
             ],
             "stateMutability": "view",
@@ -141,6 +310,25 @@
                 "internalType": "uint256",
                 "name": "",
                 "type": "uint256"
+              }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+          },
+          {
+            "inputs": [
+              {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+              }
+            ],
+            "name": "lendersList",
+            "outputs": [
+              {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
               }
             ],
             "stateMutability": "view",
@@ -254,7 +442,7 @@
                 "type": "uint256"
               }
             ],
-            "name": "transferFunds",
+            "name": "transferFundsToProposal",
             "outputs": [],
             "stateMutability": "nonpayable",
             "type": "function"
@@ -791,219 +979,348 @@
         "name": "Proposal",
         "address": "",
         "abi": [
-          {
-            "inputs": [
-              {
-                "internalType": "address",
-                "name": "_startupToken",
-                "type": "address"
-              },
-              {
-                "internalType": "address",
-                "name": "_dao",
-                "type": "address"
-              },
-              {
-                "internalType": "string",
-                "name": "_description",
-                "type": "string"
-              },
-              {
-                "internalType": "uint256",
-                "name": "_requestedAmount",
-                "type": "uint256"
-              },
-              {
-                "internalType": "uint256",
-                "name": "_tokensOffered",
-                "type": "uint256"
-              },
-              {
-                "internalType": "address",
-                "name": "_fundingAddress",
-                "type": "address"
-              }
-            ],
-            "stateMutability": "nonpayable",
-            "type": "constructor"
-          },
-          {
-            "inputs": [],
-            "name": "dao",
-            "outputs": [
-              {
-                "internalType": "contract DAO",
-                "name": "",
-                "type": "address"
-              }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-          },
-          {
-            "inputs": [],
-            "name": "description",
-            "outputs": [
-              {
-                "internalType": "string",
-                "name": "",
-                "type": "string"
-              }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-          },
-          {
-            "inputs": [],
-            "name": "finalize",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
-          },
-          {
-            "inputs": [],
-            "name": "finalized",
-            "outputs": [
-              {
-                "internalType": "bool",
-                "name": "",
-                "type": "bool"
-              }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-          },
-          {
-            "inputs": [],
-            "name": "founder",
-            "outputs": [
-              {
-                "internalType": "address",
-                "name": "",
-                "type": "address"
-              }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-          },
-          {
-            "inputs": [],
-            "name": "fundingAddress",
-            "outputs": [
-              {
-                "internalType": "address",
-                "name": "",
-                "type": "address"
-              }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "address",
-                "name": "",
-                "type": "address"
-              }
-            ],
-            "name": "hasVoted",
-            "outputs": [
-              {
-                "internalType": "bool",
-                "name": "",
-                "type": "bool"
-              }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-          },
-          {
-            "inputs": [],
-            "name": "mintTokens",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
-          },
-          {
-            "inputs": [],
-            "name": "requestedAmount",
-            "outputs": [
-              {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-              }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-          },
-          {
-            "inputs": [],
-            "name": "startupToken",
-            "outputs": [
-              {
-                "internalType": "contract StartupToken",
-                "name": "",
-                "type": "address"
-              }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-          },
-          {
-            "inputs": [],
-            "name": "tokensOffered",
-            "outputs": [
-              {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-              }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "bool",
-                "name": "support",
-                "type": "bool"
-              }
-            ],
-            "name": "vote",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
-          },
-          {
-            "inputs": [],
-            "name": "votesAgainst",
-            "outputs": [
-              {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-              }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-          },
-          {
-            "inputs": [],
-            "name": "votesFor",
-            "outputs": [
-              {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-              }
-            ],
-            "stateMutability": "view",
-            "type": "function"
-          }
-        ]
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_founder",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_startupToken",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_dao",
+          "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "_description",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_requestedAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_tokensOffered",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "_fundingAddress",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [],
+      "name": "calculateVotingPower",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "canApprove",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "dao",
+      "outputs": [
+        {
+          "internalType": "contract DAO",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "description",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "finalize",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "finalized",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "founder",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "fundingAddress",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getDetails",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "startupToken",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "dao",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "founder",
+              "type": "address"
+            },
+            {
+              "internalType": "string",
+              "name": "description",
+              "type": "string"
+            },
+            {
+              "internalType": "uint256",
+              "name": "requestedAmount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "tokensOffered",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "fundingAddress",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "votesFor",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "votesAgainst",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bool",
+              "name": "finalized",
+              "type": "bool"
+            },
+            {
+              "internalType": "bool",
+              "name": "voted",
+              "type": "bool"
+            },
+            {
+              "internalType": "bool",
+              "name": "voteSelection",
+              "type": "bool"
+            },
+            {
+              "internalType": "bool",
+              "name": "canFinalize",
+              "type": "bool"
+            },
+            {
+              "internalType": "uint256",
+              "name": "votingPower",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct Proposal.ProposalDetails",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "hasVoted",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "mintTokens",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "requestedAmount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "startupToken",
+      "outputs": [
+        {
+          "internalType": "contract StartupToken",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "tokensOffered",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "totalVotes",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bool",
+          "name": "support",
+          "type": "bool"
+        }
+      ],
+      "name": "vote",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "votesAgainst",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "votesFor",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ]
       },
       "startuptoken": {
         "id": "StartupToken",
@@ -1340,6 +1657,51 @@
             "type": "function"
           },
           {
+            "inputs": [],
+            "name": "getDetails",
+            "outputs": [
+              {
+                "components": [
+                  {
+                    "internalType": "string",
+                    "name": "name",
+                    "type": "string"
+                  },
+                  {
+                    "internalType": "string",
+                    "name": "symbol",
+                    "type": "string"
+                  },
+                  {
+                    "internalType": "uint256",
+                    "name": "totalSupply",
+                    "type": "uint256"
+                  },
+                  {
+                    "internalType": "uint256",
+                    "name": "maximumSupply",
+                    "type": "uint256"
+                  },
+                  {
+                    "internalType": "uint256",
+                    "name": "proposalCount",
+                    "type": "uint256"
+                  },
+                  {
+                    "internalType": "address",
+                    "name": "owner",
+                    "type": "address"
+                  }
+                ],
+                "internalType": "struct StartupToken.StartupTokenDetails",
+                "name": "",
+                "type": "tuple"
+              }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+          },
+          {
             "inputs": [
               {
                 "internalType": "uint256",
@@ -1442,6 +1804,19 @@
                 "internalType": "contract Proposal",
                 "name": "",
                 "type": "address"
+              }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+          },
+          {
+            "inputs": [],
+            "name": "proposalCount",
+            "outputs": [
+              {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
               }
             ],
             "stateMutability": "view",

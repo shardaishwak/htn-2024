@@ -2,13 +2,17 @@ import { ethers } from "ethers";
 import chainConfig from "../index.json";
 
 export default async function getAllProposals(
-	daoAddress: string,
+	startupTokenAddress: string,
 	provider: any
 ) {
 	try {
-		const daoAbi = chainConfig.contracts.dao.abi;
+		const startupTokenAbi = chainConfig.contracts.startuptoken.abi;
 
-		const dao = new ethers.Contract(daoAddress, daoAbi, provider);
+		const dao = new ethers.Contract(
+			startupTokenAddress,
+			startupTokenAbi,
+			provider
+		);
 		const proposalsAddresses = await dao.getAllProposals();
 
 		// for each address we need to get the proposal
