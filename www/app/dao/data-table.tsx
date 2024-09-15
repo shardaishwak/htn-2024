@@ -20,6 +20,7 @@ import React, { useContext } from "react";
 import { useRouter } from "next/navigation"; // Import useRouter
 import { ChainContextType, ChainContext } from "@/context/chain-context";
 import { DAO } from "@/rpc/types";
+import { ethers } from "ethers";
 
 const DAOTableRow = (props: { dao: DAO }) => {
 	const router = useRouter(); // Initialize useRouter
@@ -50,7 +51,9 @@ const DAOTableRow = (props: { dao: DAO }) => {
 			<TableCell className="hidden md:table-cell">
 				${dao.totalUSDCIn.toLocaleString()}
 			</TableCell>
-			<TableCell className="">${dao.totalTokensOut.toLocaleString()}</TableCell>
+			<TableCell className="">
+				${ethers.formatUnits(dao.totalTokensOut, 6).toLocaleString()}
+			</TableCell>
 			<TableCell className="">{Number(dao.proposalCount)}</TableCell>
 		</TableRow>
 	);

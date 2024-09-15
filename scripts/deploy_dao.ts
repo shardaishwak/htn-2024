@@ -15,7 +15,11 @@ async function main() {
 		"0x6fC8404a68eff59df1eab9a26Cb1228643778579"
 	);
 
-	await daoFactory.createDAO(await usdc.getAddress(), "This is my DAO!!");
+	const tx = await daoFactory.createDAO(
+		await usdc.getAddress(),
+		"This is my DAO!!"
+	);
+	await tx.wait();
 
 	const daoAddress = await daoFactory.daos(0);
 
